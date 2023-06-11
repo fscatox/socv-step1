@@ -1,10 +1,8 @@
 # Step 1: Introduction to SystemVerilog 
---------------------------------------
+
 ## Introduction
--------------
 
 ## Included Files 
------------------
 
 - [`run.sh`](./run.sh) - QuestaSIM launcher with remote execution and
   synchronization capabilities. 
@@ -14,6 +12,7 @@
       dependency resolution, simulation run and coverage report generation.
     - [`scripts/findFiles.tcl`](.scripts/findFiles.tcl) - Recursive `glob`
       procedure. It's used to collect the source files to be compiled.
+
 - [`src/rtl`](./src/rtl) - **DUTs source files**
     - [`src/rtl/alu`](./src/rtl/alu) - **Combinational circuit**
         - [`src/rtl/alu/type_alu.vhd`](./src/rtl/alu/type_alu.vhd) - Package
@@ -26,7 +25,6 @@
       description of the accumulator.
 
 ## Usage (remote execution)
----------------------------
 
 1. Change into the directory containing this file:
     ```bash
