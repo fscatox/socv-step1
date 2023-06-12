@@ -44,13 +44,14 @@ class AluScoreboard;
     other.display($sformatf("@%0t: AluScoreboard check: ", $time));
 
     // packet lost ?
-    if (xpected.empty()) begin
+    if (!xpected.size()) begin
       $display("@%0t: ERROR: %m expected queue is empty", $time);
       cfg.n_errors++;
       return;
     end
 
     xpk = xpected.pop_front();
+    xpk.display($sformatf("                  against: "));
     n_actual++;
 
     if (!xpk.compare(other)) begin
@@ -60,7 +61,7 @@ class AluScoreboard;
     end
 
     // match
-    $display("@%0t: packets match", $time);
+    $display("@%0t: OK: packets match", $time);
     return;
 
   endfunction : check_actual
@@ -68,7 +69,7 @@ class AluScoreboard;
   function void wrap_up();
     $display("@%0t: %m %0d expected packets, %0d received packets", $time, n_xpected, n_actual);
 
-    if (!xpected.empty()) begin
+    if (xpected.size()) begin
       cfg.n_errors++;
       foreach (xpected[i]) begin
         xpected[i].display("Unclaimed: ");

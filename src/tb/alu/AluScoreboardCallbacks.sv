@@ -20,7 +20,7 @@
 `include "AluMonitor.sv"
 
 class AluScbDriverCb extends AluDriverCallback;
-  localparam  int mULT_WIDTH = DATA_WIDTH/2;
+  localparam  int MultWidth = DATA_WIDTH/2;
   AluScoreboard scb;
 
   function new (AluScoreboard scb);
@@ -29,13 +29,13 @@ class AluScbDriverCb extends AluDriverCallback;
 
   // Fill the packet and save it in the scoreboard
   virtual task post(input AluDriver drv, input AluPacket pk);
-    const int shift_diff = DATA_WIDTH - pk.b;
+    const int shift_norm = pk.b % DATA_WIDTH;
 
     case (pk.op)
       /* arithemtic operations */
       add     : pk.r = pk.a  + pk.b;
       sub     : pk.r = pk.a  - pk.b;
-      mult    : pk.r = pk.a[mULT_WIDTH-1:0] * pk.b[mULT_WIDTH-1:0];
+      mult    : pk.r = pk.a[MultWidth-1:0] * pk.b[MultWidth-1:0];
 
       /* bitwise operations */
       bitand  : pk.r = pk.a & pk.b;
@@ -48,12 +48,12 @@ class AluScbDriverCb extends AluDriverCallback;
 
       /* rotate operations */
       funcrl  : begin
-        pk.r = pk.a << pk.b;
-        pk.r |= (shift_diff <= 0) ? 0 : (pk.a >> shift_diff);
+        pk.r = pk.a << shift_norm;
+        pk.r |= pk.a >> (DATA_WIDTH - shift_norm);
       end
       funcrr  : begin
-        pk.r = pk.a >> pk.b;
-        pk.r |= (shift_diff <= 0) ? 0 : (pk.a << shift_diff);
+        pk.r = pk.a >> shift_norm;
+        pk.r |= pk.a << (DATA_WIDTH - shift_norm);
       end
 
       // with other operations, return 0

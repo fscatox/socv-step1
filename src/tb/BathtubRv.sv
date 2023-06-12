@@ -19,13 +19,14 @@
 `define BATHTUBRV_SV
 
 class BathtubRv
-  #(int WIDTH=32,
-    int MEAN=real'(((1<<(WIDTH-1))-1)/8)/$ln(2)); // P((max_value/2-1)/8) = 0.5
+  #(parameter int unsigned WIDTH=32,
+    parameter int unsigned MEAN=20); // P((max_value/2-1)/12) = 0.5
 
   logic [WIDTH-1:0] value;
-  int seed;
+  int unsigned seed;
 
   function new();
+    $display("%0d", MEAN);
     seed = $urandom;
   endfunction
 
@@ -34,9 +35,9 @@ class BathtubRv
 
     // randomly flip curve
     if ($urandom_range(1))
-      value = ((1<<WIDTH)-1) - value;
+      value = ((64'd1<<WIDTH)-1) - value; // unsigned computation
   endfunction
-
 endclass
 
 `endif
+

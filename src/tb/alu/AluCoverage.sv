@@ -7,7 +7,7 @@
  * File              : AluCoverage.sv
  * Author            : Fabio Scatozza <s315216@studenti.polito.it>
  * Date              : 11.06.2023
- * Last Modified Date: 11.06.2023
+ * Last Modified Date: 12.06.2023
  * ---------------------------------------------------------------------------
  * Coverage class for gathering information on how effective the generated
  * stimulus is for exercising the DUT's functionality.
@@ -20,7 +20,7 @@
 `define ALUCOVERAGE_SV
 
 `include "AluPacket.sv"
-`include "AluMonitor.sv"
+`include "AluDriver.sv"
 
 class AluCoverage;
   AluPacket pk;
@@ -31,16 +31,16 @@ class AluCoverage;
     a_cp : coverpoint pk.a {
       bins zero     = {0};
       bins one      = {1};
-      bins max_slr  = {(1<<(DATA_WIDTH-1))-1};
-      bins max      = {(1<<DATA_WIDTH)-1};
+      bins max_slr  = {(64'd1<<(DATA_WIDTH-1))-1};
+      bins max      = {(64'd1<<DATA_WIDTH)-1};
       bins others   = default; // ignored values for coverage
     }
 
     b_cp : coverpoint pk.b {
       bins zero     = {0};
       bins one      = {1};
-      bins max_slr  = {(1<<(DATA_WIDTH-1))-1};
-      bins max      = {(1<<DATA_WIDTH)-1};
+      bins max_slr  = {(64'd1<<(DATA_WIDTH-1))-1};
+      bins max      = {(64'd1<<DATA_WIDTH)-1};
       bins others   = default; // ignored values for coverage
     }
   endgroup
@@ -61,7 +61,7 @@ class AluCoverage;
   endfunction : sample
 endclass : AluCoverage
 
-class AluCovMonitorCb extends AluMonitorCallback;
+class AluCovDriverCb extends AluDriverCallback;
   AluCoverage cov;
 
   function new(AluCoverage cov);
@@ -69,10 +69,10 @@ class AluCovMonitorCb extends AluMonitorCallback;
   endfunction
 
   // send packet to coverage
-  virtual task post(input AluMonitor drv, input AluPacket pk);
+  virtual task pre(input AluDriver drv, input AluPacket pk);
     cov.sample(pk);
-  endtask : post
-endclass : AluCovMonitorCb
+  endtask : pre
+endclass : AluCovDriverCb
 
 
 `endif

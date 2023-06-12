@@ -7,7 +7,7 @@
  * File              : AluGenerator.sv
  * Author            : Fabio Scatozza <s315216@studenti.polito.it>
  * Date              : 10.06.2023
- * Last Modified Date: 10.06.2023
+ * Last Modified Date: 12.06.2023
  * ---------------------------------------------------------------------------
  * The generator orchestrates all the steps within the environment.
  */
@@ -40,7 +40,7 @@ class AluGenerator;
 
     repeat (n_tr) begin
       `SV_RAND_CHECK(blueprint.randomize()); // so to keep randomization history
-      pk = new blueprint;              // then, copy
+      $cast(pk, blueprint.copy()); // then, copy
 
       pk.display($sformatf("@%0t: Generator: ", $time));
 

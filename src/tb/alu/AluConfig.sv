@@ -7,7 +7,7 @@
  * File              : AluConfig.sv
  * Author            : Fabio Scatozza <s315216@studenti.polito.it>
  * Date              : 11.06.2023
- * Last Modified Date: 11.06.2023
+ * Last Modified Date: 12.06.2023
  * ---------------------------------------------------------------------------
  * Central configuration descriptor for the testbench
  */
@@ -16,13 +16,13 @@
 `define ALUCONFIG_SV
 
 class AluConfig;
-  int n_errors; // errors during the simulation
+  int unsigned n_errors; // errors during the simulation
 
   // copy of configuration parameters
-  int data_width;
-  int n_packets;
+  int unsigned data_width;
+  int unsigned n_packets;
 
-  function new(input int data_width);
+  function new(input int unsigned data_width);
     this.data_width = data_width;
 
     if (!$value$plusargs("n_packets%d", n_packets))

@@ -7,20 +7,17 @@
  * File              : AluMonitor.sv
  * Author            : Fabio Scatozza <s315216@studenti.polito.it>
  * Date              : 11.06.2023
- * Last Modified Date: 11.06.2023
+ * Last Modified Date: 12.06.2023
  * ---------------------------------------------------------------------------
  * Class in charge of capturing the response of the DUT, packing it in
  * a high-level transaction.
- *
- * Callbacks are used to inject new behavior in the monitor, without having to
- * change its code. They are processed after a transaction is packed.
  */
 
 `ifndef ALUMONITOR_SV
 `define ALUMONITOR_SV
 
 `include "AluPacket.sv"
-`include "walu_if.svh"
+`include "alu_if.svh"
 
 typedef class AluMonitor; // cyclic compilation dependency
 
@@ -41,9 +38,11 @@ class AluMonitor;
 
   // capture the response
   task capture(output AluPacket pk);
+    // allocate the packet where to store the response
+    pk = new();
 
     @(tb.cb); // synchronize
-    pk.r = tb.cb.r;
+    pk.r = tb.r;
 
   endtask
 

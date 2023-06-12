@@ -4,7 +4,7 @@
  * This source code is licensed under the BSD-style license found in the
  * LICENSE file in the root directory of this source tree.
  *
- * File              : top.sv
+ * File              : AluTop.sv
  * Author            : Fabio Scatozza <s315216@studenti.polito.it>
  * Date              : 11.06.2023
  * Last Modified Date: 11.06.2023
@@ -25,7 +25,7 @@
 // import DUT and its configuration
 `include "walu.sv"
 
-module top;
+module AluTop;
   logic clk;
 
   // clock generator
@@ -39,7 +39,7 @@ module top;
   // instantiations
   alu_if ifc(clk);
   walu dut(ifc.alu);
-  test tb(ifc);
+  AluTest tb(ifc);
 
 endmodule
 

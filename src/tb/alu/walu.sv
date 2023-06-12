@@ -7,7 +7,7 @@
  * File              : walu.sv
  * Author            : Fabio Scatozza <s315216@studenti.polito.it>
  * Date              : 10.06.2023
- * Last Modified Date: 10.06.2023
+ * Last Modified Date: 12.06.2023
  * ---------------------------------------------------------------------------
  * Wrapper for the ALU described in the VHDL entity "alu".
  */
@@ -15,7 +15,7 @@
 `ifndef WALU_SV
 `define WALU_SV
 
-`include "walu_if.svh"
+`include "alu_if.svh"
 
   module walu
     (alu_if.alu p);

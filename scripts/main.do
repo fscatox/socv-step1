@@ -70,7 +70,7 @@ project calculateorder
 
 # $args starts with 'top-module'
 puts "\n############################  SIMULATION  STARTS  ##############################\n"
-vsim -sv_seed random $args 
+vsim -sv_seed random {*}[split $args] 
 run -all
 puts "\n############################  SIMULATION  ENDS    ##############################\n"
 

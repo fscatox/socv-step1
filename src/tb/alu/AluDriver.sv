@@ -7,7 +7,7 @@
  * File              : AluDriver.sv
  * Author            : Fabio Scatozza <s315216@studenti.polito.it>
  * Date              : 11.06.2023
- * Last Modified Date: 11.06.2023
+ * Last Modified Date: 12.06.2023
  * ---------------------------------------------------------------------------
  * Class in charge of applying the stimulus to the DUT, translating from the
  * high-level transactions received.
@@ -21,7 +21,7 @@
 `define ALUDRIVER_SV
 
 `include "AluPacket.sv"
-`include "walu_if.svh"
+`include "alu_if.svh"
 
 typedef class AluDriver; // cyclic compilation dependency
 

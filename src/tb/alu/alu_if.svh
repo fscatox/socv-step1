@@ -4,10 +4,10 @@
 * This source code is licensed under the BSD-style license found in the
 * LICENSE file in the root directory of this source tree.
 *
-* File              : walu_if.svh
+* File              : alu_if.svh
 * Author            : Fabio Scatozza <s315216@studenti.polito.it>
 * Date              : 10.06.2023
-* Last Modified Date: 10.06.2023
+* Last Modified Date: 12.06.2023
 * ---------------------------------------------------------------------------
 * The interface encapsulates connectivity and syncronization between the
 * DUT and the testbench environment.
@@ -30,11 +30,10 @@ interface alu_if
   //  - drive DUT inputs with #0 skew
 
   clocking cb @(posedge clk);
-    input r;
     output a, b, op;
   endclocking
 
-  modport tb (clocking cb);
+  modport tb (clocking cb, input r);
 
   modport alu (
     input a, b, op,

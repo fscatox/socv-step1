@@ -7,7 +7,7 @@
  * File              : BaseTransaction.sv
  * Author            : Fabio Scatozza <s315216@studenti.polito.it>
  * Date              : 10.06.2023
- * Last Modified Date: 10.06.2023
+ * Last Modified Date: 12.06.2023
  * ---------------------------------------------------------------------------
  * Base class for transaction objects passed around in the testbench
  */
@@ -17,15 +17,16 @@
 
   virtual class BaseTransaction;
     // number of transactions created
-    static int count = 0;
+    static int unsigned count = 0;
     // unique identifier of the transaction
-    int id;
+    int unsigned id;
 
     function new();
       id = count++;
     endfunction
 
     pure virtual function bit compare(input BaseTransaction to);
+    pure virtual function BaseTransaction copy(input BaseTransaction to=null);
     pure virtual function void display(input string prefix="");
 
   endclass

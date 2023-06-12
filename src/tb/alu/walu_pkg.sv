@@ -7,7 +7,7 @@
  * File              : walu_pkg.sv
  * Author            : Fabio Scatozza <s315216@studenti.polito.it>
  * Date              : 10.06.2023
- * Last Modified Date: 10.06.2023
+ * Last Modified Date: 12.06.2023
  * ---------------------------------------------------------------------------
  * "walu"-related data types and configuration parameters.
  *
@@ -22,7 +22,7 @@
 package walu_pkg;
 
   // Data parallelism configuration
-  parameter int DATA_WIDTH = 32;
+  parameter int unsigned DATA_WIDTH = 32;
   typedef logic [DATA_WIDTH-1:0] data_t;
 
 endpackage

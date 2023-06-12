@@ -68,8 +68,8 @@ class AluEnvironment;
 
     begin
       // register the coverage callback
-      AluCovMonitorCb cov_mon_cb = new(cov);
-      mon.cbq.push_back(cov_mon_cb);
+      AluCovDriverCb cov_drv_cb = new(cov);
+      drv.cbq.push_back(cov_drv_cb);
     end
    endfunction : build
 
@@ -83,8 +83,14 @@ class AluEnvironment;
        gen.run();
        num_gen_running--;
      end
+
      drv.run();
-     mon.run();
+
+     // one-cycle delay
+     begin
+       @(tb.cb);
+       mon.run();
+     end
    join_none
 
    // wait for generators to finish or time-out
@@ -100,11 +106,15 @@ class AluEnvironment;
    disable timeout_block;
 
    // wait for data to flow through the environment
-   repeat (10*cfg.n_packets) @(tb.cb);
+   @(tb.cb);
  endtask : run
 
  function void wrap_up();
-   $display("@%0t: End of simulation: %0d error(s)", $time, cfg.n_errors);
+   $display("@%0t: END OF SIMULATION", $time);
+   $display("       * %0d error(s)", cfg.n_errors);
+   $display("       * total functional coverage: %.2f%%", $get_coverage);
+   $display;
+
    scb.wrap_up();
  endfunction : wrap_up
 

@@ -9,7 +9,9 @@
  * Date              : 10.06.2023
  * Last Modified Date: 10.06.2023
  * ---------------------------------------------------------------------------
- * Refined transaction considering the "walu" as DUT
+ * Refined transaction for "walu".
+ * Randomization is customized with the Bathtub distribution, so to skew the
+ * stimulus towards corner cases.
  */
 
 `ifndef ALUPACKET_SV
@@ -17,20 +19,20 @@
 
 import walu_pkg::*;
 import type_alu::*;
+
 `include "../BaseTransaction.sv"
 `include "../BathtubRv.sv"
 
 
 class AluPacket extends BaseTransaction;
 
-  // Payload
-  data_t a, b, r; // randomization is customized to achieve a bathtub distribution
-  rand type_op op;
-
-  // randomization helpers
+  // randomization is customized to achieve a bathtub distribution
+  data_t a, b, r;
   BathtubRv#(.WIDTH(DATA_WIDTH)) bathtub_rv;
 
-  // Constraint for skewing the stimulus towards corner cases
+  rand type_op op;
+
+  // a, b randomization function
   function void pre_randomize();
     bathtub_rv.randomize();
     a = bathtub_rv.value;
@@ -40,6 +42,7 @@ class AluPacket extends BaseTransaction;
   endfunction
 
   function new();
+    // initialize and seed the number generator
     bathtub_rv = new();
   endfunction
 
@@ -50,8 +53,24 @@ class AluPacket extends BaseTransaction;
     return (this.r == other.r);
   endfunction : compare
 
+  virtual function BaseTransaction copy(input BaseTransaction to=null);
+    AluPacket dst;
+
+    if (to == null)
+      dst = new();
+    else
+      $cast(dst, to);
+
+    dst.a = this.a;
+    dst.b = this.b;
+    dst.r = this.r;
+    dst.op = this.op;
+
+    return dst;
+  endfunction : copy
+
   virtual function void display(input string prefix="");
-    $display("%sAluPacket id:%0d | a=%x, b=%x, r=%x, op=%s",
+    $display("%sPacket id=%0d: { a=%x, b=%x, r=%x, op=%s }",
       prefix, id, a, b, r, op.name());
     $display;
   endfunction : display
