@@ -54,7 +54,7 @@ class AluMonitor;
     forever begin
 
       capture(pk);
-      pk.display($sformat("@%0t: Monitor: ", $time));
+      pk.display($sformatf("@%0t: Monitor: ", $time));
 
       // run post-callbacks
       foreach (cbq[i])

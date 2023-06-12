@@ -73,7 +73,7 @@ class AluDriver;
         foreach (cbq[i])
           cbq[i].pre(this, pk);
 
-        pk.display($sformat("@%0t: Driver: ", $time));
+        pk.display($sformatf("@%0t: Driver: ", $time));
         apply(pk);
 
         // run post-callbacks

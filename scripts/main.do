@@ -34,7 +34,25 @@ project new $artifacts_dir proj
 # collect all hdl sources to be compiled
 source $script_dir/findFiles.tcl
 
-set hdl_extensions {vhd v sv}
+# start with vhdl sources (for mixed language support)
+set hdl_sources [findFiles $src_dir "*.vhd"]
+
+# add sources to current project
+foreach hdl $hdl_sources {
+  project addfile $hdl
+}
+
+# compile to solve dependencies
+project calculateorder
+
+# enable mixed language support
+foreach hdl [project compileorder] {
+  vcom -mixedsvvh $hdl
+  project removefile $hdl
+}
+
+# then verilog and systemverilog
+set hdl_extensions {v sv}
 set hdl_sources {} 
 
 foreach ext $hdl_extensions {

@@ -17,12 +17,13 @@
 `define WALU_IF_SVH
 
 import walu_pkg::*;
+import type_alu::*;
 
 interface alu_if
   (input bit clk);
 
   data_t a, b, r;
-  op_t op;
+  type_op op;
 
   // synchronizer between the DUT and the testbench
   //  - sample DUT outputs upon design activity completion (postponed region)

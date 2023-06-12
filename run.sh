@@ -277,7 +277,12 @@ if [[ -n "$remote" ]] && [[ -n "$port" ]]; then
 
     # run the script found inside the project directory 
     # define the string that, once replaced, provides the command corresponding to setmentor
-    remote_opt+=("&&" "bash" "./$script_name" "-m" "\"\${BASH_ALIASES[$mentor]}\"" "$tcl_args")
+    remote_opt+=("&&" "bash" "./$script_name" "-m" "\"\${BASH_ALIASES[$mentor]}\"")
+
+    # additional arguments may start with a dash
+    if [[ -n "$tcl_args" ]]; then
+      remote_opt+=("--" "$tcl_args")
+    fi
     
     # connection parameters
     ssh_opt=("$remote" "-p $port" "${remote_opt[@]}")

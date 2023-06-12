@@ -16,6 +16,7 @@
 `define ALUPACKET_SV
 
 import walu_pkg::*;
+import type_alu::*;
 `include "../BaseTransaction.sv"
 `include "../BathtubRv.sv"
 
@@ -24,7 +25,7 @@ class AluPacket extends BaseTransaction;
 
   // Payload
   data_t a, b, r; // randomization is customized to achieve a bathtub distribution
-  rand op_t op;
+  rand type_op op;
 
   // randomization helpers
   BathtubRv#(.WIDTH(DATA_WIDTH)) bathtub_rv;

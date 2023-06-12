@@ -21,11 +21,6 @@
 
 package walu_pkg;
 
-  // Operations supported by the alu
-  typedef enum bit [3:0] {
-    add, sub, mult, bitand, bitor, bitxor, funclsl, funclsr, funcrl, funcrr
-  } op_t;
-
   // Data parallelism configuration
   parameter int DATA_WIDTH = 32;
   typedef logic [DATA_WIDTH-1:0] data_t;
