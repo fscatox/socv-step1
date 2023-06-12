@@ -10,8 +10,6 @@
  * Last Modified Date: 10.06.2023
  * ---------------------------------------------------------------------------
  * Refined transaction for "walu".
- * Randomization is customized with the Bathtub distribution, so to skew the
- * stimulus towards corner cases.
  */
 
 `ifndef ALUPACKET_SV
@@ -21,30 +19,29 @@ import walu_pkg::*;
 import type_alu::*;
 
 `include "../BaseTransaction.sv"
-`include "../BathtubRv.sv"
 
 
 class AluPacket extends BaseTransaction;
 
   // randomization is customized to achieve a bathtub distribution
-  data_t a, b, r;
-  BathtubRv#(.WIDTH(DATA_WIDTH)) bathtub_rv;
-
+  rand data_t a, b, r;
   rand type_op op;
 
-  // a, b randomization function
-  function void pre_randomize();
-    bathtub_rv.randomize();
-    a = bathtub_rv.value;
-
-    bathtub_rv.randomize();
-    b = bathtub_rv.value;
-  endfunction
-
-  function new();
-    // initialize and seed the number generator
-    bathtub_rv = new();
-  endfunction
+  constraint ab_dist_c {
+    a dist {
+      0                         := 10,
+      1                         := 10,
+      (64'd1<<(DATA_WIDTH-1))-1 := 10,
+      (64'd1<<DATA_WIDTH)-1     := 10
+      // others, default
+    };
+    b dist {
+      0                         := 10,
+      1                         := 10,
+      (64'd1<<(DATA_WIDTH-1))-1 := 10,
+      (64'd1<<DATA_WIDTH)-1     := 10
+    };
+  };
 
   virtual function bit compare(input BaseTransaction to);
     AluPacket other;
