@@ -9,7 +9,10 @@
  * Date              : 11.06.2023
  * Last Modified Date: 13.06.2023
  * ---------------------------------------------------------------------------
- * Callback classes used to connect driver and monitor to the scoreboard
+ * Callback classes used to connect driver and monitor to the scoreboard.
+ *
+ * The driver is given the capability of generating the expected DUT's
+ * response.
  */
 
 `ifndef ALUSCOREBOARDCALLBACKS_SV

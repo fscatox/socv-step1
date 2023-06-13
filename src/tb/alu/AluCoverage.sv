@@ -9,7 +9,7 @@
  * Date              : 11.06.2023
  * Last Modified Date: 13.06.2023
  * ---------------------------------------------------------------------------
- * Coverage class for gathering information on how effective the generated
+ * Coverage class to gather information on how effective the generated
  * stimulus is for exercising the DUT's functionality.
  *
  * Covergroup sampling is injected as an additional functionality into the
@@ -30,14 +30,12 @@ class AluCoverage;
 
     a_cp : coverpoint pk.a {
       bins zero     = {0};
-      bins one      = {1};
       bins max      = {(64'd1<<DATA_WIDTH)-1};
       bins others   = default; // ignored values for coverage
     }
 
     b_cp : coverpoint pk.b {
       bins zero     = {0};
-      bins one      = {1};
       bins max      = {(64'd1<<DATA_WIDTH)-1};
       bins others   = default; // ignored values for coverage
     }

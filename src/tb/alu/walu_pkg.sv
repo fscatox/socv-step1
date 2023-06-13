@@ -9,7 +9,8 @@
  * Date              : 10.06.2023
  * Last Modified Date: 12.06.2023
  * ---------------------------------------------------------------------------
- * "walu"-related data types and configuration parameters.
+ * Data types and configuration parameters for the SystemVerilog wrapper
+ * of the VHDL alu under test.
  *
  * These parameters must be available at compile-time, therefore it's not
  * possible to randomize them trivially: it would be required to write a class

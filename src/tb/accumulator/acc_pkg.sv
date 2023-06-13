@@ -9,7 +9,8 @@
  * Date              : 13.06.2023
  * Last Modified Date: 13.06.2023
  * ---------------------------------------------------------------------------
- * "acc"-related data types and configuration parameters.
+ * Data types and configuration parameters for the SystemVerilog wrapper of
+ * the VHDL accumulator under test.
  *
  * These parameters must be available at compile-time, therefore it's not
  * possible to randomize them trivially: it would be required to write a class

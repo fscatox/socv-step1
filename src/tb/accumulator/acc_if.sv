@@ -9,7 +9,7 @@
 * Date              : 13.06.2023
 * Last Modified Date: 13.06.2023
 * ---------------------------------------------------------------------------
-* The interface encapsulates connectivity and syncronization between the
+* The interface encapsulates connectivity and synchronization between the
 * DUT and the testbench environment.
 */
 
