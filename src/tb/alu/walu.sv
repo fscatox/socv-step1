@@ -15,7 +15,7 @@
 `ifndef WALU_SV
 `define WALU_SV
 
-`include "alu_if.svh"
+`include "alu_if.sv"
 
   module walu
     (alu_if.alu p);

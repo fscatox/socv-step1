@@ -12,20 +12,20 @@
  * Highest testbench layer, containing:
  *  - clock generator. The clock is in general more closely tied to the design
  *  rather than to the testbench, thus it's generated here.
+ *
  *  - DUT.
+ *
  *  - The testbench program block, which ensures separation between the design
  *  events (elaborated in the active region of the time slot) and the
  *  testbench events (elaborated in the reactive region).
+ *
  *  - The interface between the two.
  */
 
 // set time unit and resolution
 `timescale 1ns/1ns
 
-// import DUT and its configuration
-`include "walu.sv"
-
-module AluTop;
+module alu_top;
   logic clk;
 
   // clock generator
@@ -33,13 +33,13 @@ module AluTop;
     clk = 1;
 
     forever
-      #5ns clk = ~clk;
+      #5 clk = ~clk;
   end
 
   // instantiations
   alu_if ifc(clk);
   walu dut(ifc.alu);
-  AluTest tb(ifc);
+  alu_test tb(ifc);
 
 endmodule
 

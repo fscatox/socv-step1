@@ -7,12 +7,12 @@
  * File              : AluCoverage.sv
  * Author            : Fabio Scatozza <s315216@studenti.polito.it>
  * Date              : 11.06.2023
- * Last Modified Date: 12.06.2023
+ * Last Modified Date: 13.06.2023
  * ---------------------------------------------------------------------------
  * Coverage class for gathering information on how effective the generated
  * stimulus is for exercising the DUT's functionality.
  *
- * Covergroup sampling is injected as additional functionality into the
+ * Covergroup sampling is injected as an additional functionality into the
  * monitor.
  */
 
@@ -31,7 +31,6 @@ class AluCoverage;
     a_cp : coverpoint pk.a {
       bins zero     = {0};
       bins one      = {1};
-      bins max_slr  = {(64'd1<<(DATA_WIDTH-1))-1};
       bins max      = {(64'd1<<DATA_WIDTH)-1};
       bins others   = default; // ignored values for coverage
     }
@@ -39,7 +38,6 @@ class AluCoverage;
     b_cp : coverpoint pk.b {
       bins zero     = {0};
       bins one      = {1};
-      bins max_slr  = {(64'd1<<(DATA_WIDTH-1))-1};
       bins max      = {(64'd1<<DATA_WIDTH)-1};
       bins others   = default; // ignored values for coverage
     }
@@ -61,7 +59,9 @@ class AluCoverage;
   endfunction : sample
 endclass : AluCoverage
 
-class AluCovDriverCb extends AluDriverCallback;
+class AluCovDriverCb
+ extends Callback#(AluPacket);
+
   AluCoverage cov;
 
   function new(AluCoverage cov);
@@ -69,11 +69,9 @@ class AluCovDriverCb extends AluDriverCallback;
   endfunction
 
   // send packet to coverage
-  virtual task pre(input AluDriver drv, input AluPacket pk);
-    cov.sample(pk);
+  virtual task pre(input AluPacket tr);
+    cov.sample(tr);
   endtask : pre
 endclass : AluCovDriverCb
 
-
 `endif
-

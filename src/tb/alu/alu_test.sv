@@ -10,12 +10,12 @@
  * Last Modified Date: 12.06.2023
  * ---------------------------------------------------------------------------
  * The program steps through all the phases of the simulation, as defined by
- * the Environment.
+ * the AluEnvironment.
  */
 
 `include "AluEnvironment.sv"
 
-program automatic AluTest (alu_if ifc);
+program automatic alu_test (alu_if ifc);
   AluEnvironment env;
 
   initial begin
@@ -30,6 +30,7 @@ program automatic AluTest (alu_if ifc);
 
     // terminate
     env.wrap_up();
+
     $stop;
   end
 

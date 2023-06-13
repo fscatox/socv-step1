@@ -4,9 +4,9 @@
  * This source code is licensed under the BSD-style license found in the
  * LICENSE file in the root directory of this source tree.
  *
- * File              : AluDriver.sv
+ * File              : AccDriver.sv
  * Author            : Fabio Scatozza <s315216@studenti.polito.it>
- * Date              : 11.06.2023
+ * Date              : 13.06.2023
  * Last Modified Date: 13.06.2023
  * ---------------------------------------------------------------------------
  * Class in charge of applying the stimulus to the DUT, translating from the
@@ -17,41 +17,43 @@
  * sent to the DUT.
  */
 
-`ifndef ALUDRIVER_SV
-`define ALUDRIVER_SV
+`ifndef ACCDRIVER_SV
+`define ACCDRIVER_SV
 
 `include "../Callback.svh"
-`include "AluPacket.sv"
-`include "alu_if.svh"
+`include "AccPacket.sv"
+`include "acc_if.svh"
 
-class AluDriver;
+class AccDriver;
   mailbox gen2drv;    // Channel for incoming transactions
   event drv2gen;      // Let the generator know when the driver's done with the transaction
 
-  v_alutb_if tb;               // Interface to the DUT
-  Callback#(AluPacket) cbq[$]; // queue of callback objects
+  v_acctb_if tb;                   // Interface to the DUT
+  Callback#(AccPacket) cbq[$]; // queue of callback objects
 
-  function new(input mailbox gen2drv, input event drv2gen, input v_alutb_if tb);
+  function new(input mailbox gen2drv, input event drv2gen, input v_acctb_if tb);
     this.gen2drv = gen2drv;
     this.drv2gen = drv2gen;
     this.tb = tb;
   endfunction : new
 
   // apply the stimulus
-  task apply(input AluPacket pk);
+  task apply(input AccPacket pk);
 
     // synchronize
     @(tb.cb);
 
-    tb.cb.op <= pk.op;
     tb.cb.a <= pk.a;
     tb.cb.b <= pk.b;
+    tb.cb.acc <= pk.acc;
+    tb.cb.acc_en_n <= pk.acc_en_n;
+    tb.cb.rst_n <= pk.rst_n;
 
   endtask : apply
 
   // get a transaction from the generator and apply it to the DUT
   task run();
-    AluPacket pk;
+    AccPacket pk;
 
     forever begin
       // look in the mailbox

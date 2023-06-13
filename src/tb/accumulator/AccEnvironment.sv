@@ -4,9 +4,9 @@
  * This source code is licensed under the BSD-style license found in the
  * LICENSE file in the root directory of this source tree.
  *
- * File              : AluEnvironment.sv
+ * File              : AccEnvironment.sv
  * Author            : Fabio Scatozza <s315216@studenti.polito.it>
- * Date              : 11.06.2023
+ * Date              : 13.06.2023
  * Last Modified Date: 13.06.2023
  * ---------------------------------------------------------------------------
  * Child of "BaseEnvironment" abstract class.
@@ -14,28 +14,28 @@
  * components. Thus BaseEnvironment::build() is now meaningful.
  */
 
-`ifndef ALUENVIRONMENT_SV
-`define ALUENVIRONMENT_SV
+`ifndef ACCENVIRONMENT_SV
+`define ACCENVIRONMENT_SV
 
 `include "../BaseEnvironment.sv"
-`include "AluPacket.sv"
-`include "AluDriver.sv"
-`include "AluMonitor.sv"
-`include "AluCoverage.sv"
-`include "AluScoreboardCallbacks.sv"
-`include "alu_if.svh"
+`include "AccPacket.sv"
+`include "AccDriver.sv"
+`include "AccMonitor.sv"
+`include "AccCoverage.sv"
+`include "AccScoreboardCallbacks.sv"
+`include "acc_if.svh"
 
 class AluEnvironment
-  extends BaseEnvironment #(AluPacket, AluDriver, AluMonitor, v_alutb_if);
+  extends BaseEnvironment #(AccPacket, AccDriver, AccMonitor, v_acctb_if);
 
-  AluCoverage cov;
+  AccCoverage cov;
 
-  AluScbDriverCb scb_drv_cb;
-  AluScbMonitorCb scb_mon_cb;
-  AluCovDriverCb cov_drv_cb;
+  AccScbDriverCb scb_drv_cb;
+  AccScbMonitorCb scb_mon_cb;
+  AccCovDriverCb cov_drv_cb;
 
   // load the configuration from command line
-  function new(input v_alutb_if tb);
+  function new(input v_acctb_if tb);
 
     // instantiated in the top module
     this.tb = tb;

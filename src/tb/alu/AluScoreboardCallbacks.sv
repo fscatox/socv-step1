@@ -7,7 +7,7 @@
  * File              : AluScoreboardCallbacks.sv
  * Author            : Fabio Scatozza <s315216@studenti.polito.it>
  * Date              : 11.06.2023
- * Last Modified Date: 11.06.2023
+ * Last Modified Date: 13.06.2023
  * ---------------------------------------------------------------------------
  * Callback classes used to connect driver and monitor to the scoreboard
  */
@@ -15,65 +15,69 @@
 `ifndef ALUSCOREBOARDCALLBACKS_SV
 `define ALUSCOREBOARDCALLBACKS_SV
 
-`include "AluScoreboard.sv"
+`include "../Scoreboard.sv"
 `include "AluDriver.sv"
 `include "AluMonitor.sv"
 
-class AluScbDriverCb extends AluDriverCallback;
-  localparam  int MultWidth = DATA_WIDTH/2;
-  AluScoreboard scb;
+class AluScbDriverCb
+  extends Callback#(AluPacket);
 
-  function new (AluScoreboard scb);
+  localparam  int MultWidth = DATA_WIDTH/2;
+  Scoreboard#(AluPacket) scb;
+
+  function new (Scoreboard#(AluPacket) scb);
     this.scb = scb;
   endfunction
 
   // Fill the packet and save it in the scoreboard
-  virtual task post(input AluDriver drv, input AluPacket pk);
-    const int shift_norm = pk.b % DATA_WIDTH;
+  virtual task post(input AluPacket tr);
+    const int shift_norm = tr.b % DATA_WIDTH;
 
-    case (pk.op)
+    case (tr.op)
       /* arithemtic operations */
-      add     : pk.r = pk.a  + pk.b;
-      sub     : pk.r = pk.a  - pk.b;
-      mult    : pk.r = pk.a[MultWidth-1:0] * pk.b[MultWidth-1:0];
+      add     : tr.r = tr.a  + tr.b;
+      sub     : tr.r = tr.a  - tr.b;
+      mult    : tr.r = tr.a[MultWidth-1:0] * tr.b[MultWidth-1:0];
 
       /* bitwise operations */
-      bitand  : pk.r = pk.a & pk.b;
-      bitor   : pk.r = pk.a | pk.b;
-      bitxor  : pk.r = pk.a ^ pk.b;
+      bitand  : tr.r = tr.a & tr.b;
+      bitor   : tr.r = tr.a | tr.b;
+      bitxor  : tr.r = tr.a ^ tr.b;
 
       /* logical shift operations */
-      funclsl : pk.r = pk.a << pk.b;
-      funclsr : pk.r = pk.a >> pk.b;
+      funclsl : tr.r = tr.a << tr.b;
+      funclsr : tr.r = tr.a >> tr.b;
 
       /* rotate operations */
       funcrl  : begin
-        pk.r = pk.a << shift_norm;
-        pk.r |= pk.a >> (DATA_WIDTH - shift_norm);
+        tr.r = tr.a << shift_norm;
+        tr.r |= tr.a >> (DATA_WIDTH - shift_norm);
       end
       funcrr  : begin
-        pk.r = pk.a >> shift_norm;
-        pk.r |= pk.a << (DATA_WIDTH - shift_norm);
+        tr.r = tr.a >> shift_norm;
+        tr.r |= tr.a << (DATA_WIDTH - shift_norm);
       end
 
       // with other operations, return 0
-      default : pk.r = 0;
+      default : tr.r = 0;
     endcase
 
-    scb.save_xpected(pk);
+    scb.save_xpected(tr);
   endtask : post
 endclass
 
-class AluScbMonitorCb extends AluMonitorCallback;
-  AluScoreboard scb;
+class AluScbMonitorCb
+  extends Callback#(AluPacket);
 
-  function new(AluScoreboard scb);
+  Scoreboard#(AluPacket) scb;
+
+  function new(Scoreboard#(AluPacket) scb);
     this.scb = scb;
   endfunction
 
   // send packet to the scoreboard
-  virtual task post(input AluMonitor drv, input AluPacket pk);
-    scb.check_actual(pk);
+  virtual task post(input AluPacket tr);
+    scb.check_actual(tr);
   endtask : post
 
 endclass

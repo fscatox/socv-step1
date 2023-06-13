@@ -20,6 +20,6 @@
     if (!(r)) begin \
       $display("%s:%0d: Randomization failed \"%s\"", \
       `__FILE__, `__LINE__, `"r`"); \
-      $finish; \
+      $stop; \
     end \
   end while (0)

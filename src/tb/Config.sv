@@ -4,18 +4,19 @@
  * This source code is licensed under the BSD-style license found in the
  * LICENSE file in the root directory of this source tree.
  *
- * File              : AluConfig.sv
+ * File              : Config.sv
  * Author            : Fabio Scatozza <s315216@studenti.polito.it>
- * Date              : 11.06.2023
- * Last Modified Date: 12.06.2023
+ * Date              : 13.06.2023
+ * Last Modified Date: 13.06.2023
  * ---------------------------------------------------------------------------
- * Central configuration descriptor for the testbench
+ * Central configuration descriptor for the testbench. It parses the
+ * command-line argument that specifies the number of packets to generate.
  */
 
-`ifndef ALUCONFIG_SV
-`define ALUCONFIG_SV
+`ifndef CONFIG_SV
+`define CONFIG_SV
 
-class AluConfig;
+class Config;
   int unsigned n_errors; // errors during the simulation
 
   // copy of configuration parameters
@@ -24,15 +25,15 @@ class AluConfig;
 
   function new(input int unsigned data_width);
     this.data_width = data_width;
+    n_errors = 0;
 
     if (!$value$plusargs("n_packets%d", n_packets))
       n_packets = 10;
-
-    n_errors = 0;
   endfunction
 
   function void display(input string prefix="");
     $display("%sConfig: data_width=%0d, n_packets=%0d", prefix, data_width, n_packets);
+    $display;
   endfunction
 
 endclass

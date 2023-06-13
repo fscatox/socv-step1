@@ -4,44 +4,43 @@
  * This source code is licensed under the BSD-style license found in the
  * LICENSE file in the root directory of this source tree.
  *
- * File              : AluMonitor.sv
+ * File              : AccMonitor.sv
  * Author            : Fabio Scatozza <s315216@studenti.polito.it>
- * Date              : 11.06.2023
+ * Date              : 13.06.2023
  * Last Modified Date: 13.06.2023
  * ---------------------------------------------------------------------------
  * Class in charge of capturing the response of the DUT, packing it in
  * a high-level transaction.
  */
 
-`ifndef ALUMONITOR_SV
-`define ALUMONITOR_SV
+`ifndef ACCMONITOR_SV
+`define ACCMONITOR_SV
 
 `include "../Callback.svh"
-`include "AluPacket.sv"
-`include "alu_if.svh"
+`include "AccPacket.sv"
+`include "acc_if.svh"
 
+class AccMonitor;
+  v_acctb_if tb;               // Interface to the DUT
+  Callback#(AccPacket) cbq[$]; // queue of callback objects
 
-class AluMonitor;
-  v_alutb_if tb;               // Interface to the DUT
-  Callback#(AluPacket) cbq[$]; // queue of callback objects
-
-  function new(input v_alutb_if tb);
+  function new(input v_acctb_if tb);
     this.tb = tb;
   endfunction
 
   // capture the response
-  task capture(output AluPacket pk);
+  task capture(output AccPacket pk);
     // allocate the packet where to store the response
     pk = new(.is_response(1));
 
     @(tb.cb); // synchronize
-    pk.r = tb.r;
+    pk.y = tb.y;
 
   endtask
 
   // capture the response and pack it in a transaction
   task run();
-    AluPacket pk;
+    AccPacket pk;
 
     forever begin
 
@@ -50,7 +49,7 @@ class AluMonitor;
 
       // run post-callbacks
       foreach (cbq[i])
-        cbq[i].post(pk);
+        cbq[i].post(this, pk);
 
     end
   endtask : run
@@ -58,3 +57,5 @@ class AluMonitor;
 endclass
 
 `endif
+
+
