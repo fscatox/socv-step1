@@ -1,4 +1,4 @@
-# Step 1: Introduction to SystemVerilog 
+# Step 1: Introduction to SystemVerilog
 
 ## Table of contents
 1. [Introduction](#introduction)
@@ -11,7 +11,7 @@ Verification engineers want to find bugs and simulation is still the workhorse o
 
 When it comes to developing testbenches, the typical straightforward approach is direct testing.
 The hardware specifications are translated into a verification plan consisting in a list of tests,
-each targeting a certain subset of the DUT's functionality. The testbench is then constructed to 
+each targeting a certain subset of the DUT's functionality. The testbench is then constructed to
 generate enough stimulus vectors to exercise those features. Results are manually examined and, when
 satisfactory, the process advances until the verification plan is completed. Although this approach
 yields results quickly, each test must be written almost from scratch and the effort is directly
@@ -23,7 +23,7 @@ In this first step of the *SoC Verification Strategies* workshop at Politecnico 
 have the opportunity to get familiar with some common principles of more advanced methodologies:
 - *constrained random stimulus* is crucial for exercising complex designs. Randomness enables to
   find bugs that were never anticipated; constraints are essential to ensure that the stimulus is
-  valid and relevant for the DUT. 
+  valid and relevant for the DUT.
 - *functional coverage*. Once having switched to random tests, functional coverage becomes the
   metric for tracking progress in the verification plan, ensuring that all the intended features
   of the DUT were exercised.
@@ -34,12 +34,12 @@ have the opportunity to get familiar with some common principles of more advance
       structured composing simpler pieces: a generator, a driver, a monitor to name a few.
     - With a more expressive language; expressiveness limits analyzability, synthesizability and
       optimizability, but the primary goal is simulation-based verification here. SystemVerilog
-      provides us with convenient high-level features and for this reason was chosen to package 
+      provides us with convenient high-level features and for this reason was chosen to package
       industrial verification methodology libraries like the UVM.
 
-## Included Files 
+## Included Files
 
-- [`run.sh`](./run.sh) - QuestaSIM launcher with remote execution and synchronization capabilities. 
+- [`run.sh`](./run.sh) - QuestaSIM launcher with remote execution and synchronization capabilities.
 - [`scripts/`](./scripts) - **Simulation automation scripts**
     - [`scripts/main.do`](.scripts/main.do) - QuestaSIM shell script, launched by
       [`run.sh`](./run.sh). It orchestrates: source files collection, dependency resolution,
@@ -54,11 +54,11 @@ have the opportunity to get familiar with some common principles of more advance
         - [`src/rtl/alu/alu.vhd`](./src/rtl/alu/alu.vhd) - The VHDL entity containing the behavioral
           description of the alu.
     - [`src/rtl/accumulator/acc.vhd`](./src/rtl/accumulator/acc.vhd) - **Sequential circuit**. The
-      VHDL entity containing the behavioral description of the accumulator. 
- 
+      VHDL entity containing the behavioral description of the accumulator.
+
 - [`src/tb`](./src/tb) - **Testbench source files**. The classes and headers located in this folder
   are basic components of any testbench structured in a layered manner.
-    - [`src/tb/rpt.svh`](./src/tb/rpt.svh) - Collection of macros for complaining.   
+    - [`src/tb/rpt.svh`](./src/tb/rpt.svh) - Collection of macros for complaining.
     - [`src/tb/BaseTransaction.sv`](./src/tb/BaseTransaction.sv) - Base class for transaction
       objects passed around in the testbench.
     - [`src/tb/Generator.sv`](./src/tb/Generator.sv) - Generates the random transactions and
@@ -100,11 +100,11 @@ have the opportunity to get familiar with some common principles of more advance
           stimulus to the DUT. Transactions are received from the Generator through a mailbox: the
           driver translates them into `alu_if` signals activations. Before and after applying the
           stimulus, the driver processes the registered callbacks in its queue.
-          The callbacks are declared in 
+          The callbacks are declared in
           [`src/tb/alu/AluScoreboardCallbacks.sv`](./src/tb/alu/AluScoreboardCallbacks.sv)
           and in [`src/tb/alu/AluCoverage.sv`](./src/tb/alu/AluCoverage.sv).
         - [`src/tb/alu/AluMonitor.sv`](./src/tb/alu/AluMonitor.sv) - Class in charge of capturing
-          the response of the DUT, packing it in a high-level transaction. Like for the Monitor, 
+          the response of the DUT, packing it in a high-level transaction. Like for the Monitor,
           callbacks are executed before and after capturing the DUT's response.
         - [`src/tb/alu/AluCoverage.sv`](./src/tb/alu/AluCoverage.sv) - Coverage class to gather
           information on how effective the generated stimulus is for exercising the DUT's
@@ -120,12 +120,12 @@ have the opportunity to get familiar with some common principles of more advance
           actual testbench components. Thus, `BaseEnvironment::build()` is now meaningful.
         - [`src/tb/alu/alu_test.sv`](./src/tb/alu/alu_test.sv) - The program steps through all the
           phases of the simulation, as defined by the AluEnvironment: `build()`, `run()` and
-          `wrap_up()`. Using a program ensures separation between the design events 
+          `wrap_up()`. Using a program ensures separation between the design events
           (elaborated in the active region of the time slot) and the testbench events
-          (elaborated in the reactive region), which is a typical source of race conditions in 
+          (elaborated in the reactive region), which is a typical source of race conditions in
           HDL testbenches.
         - [`src/tb/alu/alu_top.sv`](./src/tb/alu/alu_top.sv) - Highest testbench layer,
-          containing: 
+          containing:
             - The clock generator, because the clock is in general more closely tied to the
               design rather than to the testbench. In addition, this provides further separation
               between design and testbench events.
@@ -142,7 +142,7 @@ have the opportunity to get familiar with some common principles of more advance
         - [`src/tb/accumulator/acc_pkg.sv`](./src/tb/accumulator/acc_pkg.sv)
         - [`src/tb/accumulator/acc_if.sv`](./src/tb/accumulator/acc_if.sv)
         - [`src/tb/accumulator/acc_if.svh`](./src/tb/accumulator/acc_if.svh)
-        
+ 
         - [`src/tb/accumulator/AccPacket.sv`](./src/tb/accumulator/AccPacket.sv)
         - [`src/tb/accumulator/AccDriver.sv`](./src/tb/accumulator/AccDriver.sv)
         - [`src/tb/accumulator/AccMonitor.sv`](./src/tb/accumulator/AccMonitor.sv)
@@ -150,7 +150,7 @@ have the opportunity to get familiar with some common principles of more advance
           sequential circuit there are a few additional cases that make the stimulus interesting and
           thus worth reporting:
             - a reset sequence,
-            - the possible states for the accumulator: memory, sum and accumulate. 
+            - the possible states for the accumulator: memory, sum and accumulate.
           The former is checked by means of the "transition coverage" syntax; the latter by means of
           cross-coverage, using custom-defined bins.
         - [`src/tb/accumulator/AccScoreboardCallbacks.sv`](./src/tb/accumulator/AccScoreboardCallbacks.sv) -
@@ -164,25 +164,25 @@ have the opportunity to get familiar with some common principles of more advance
           shared with the top module.
         - [`src/tb/accumulator/acc_top.sv`](./src/tb/accumulator/acc_top.sv) - The top module takes
           care of enforcing the conditions required by the transactors to work properly. At first,
-          while the transactors have not been started yet, the dut is reset. Then, the `dut_ready` 
-          event is triggered, which wakes up the `acc_test` program. 
+          while the transactors have not been started yet, the dut is reset. Then, the `dut_ready`
+          event is triggered, which wakes up the `acc_test` program.
 
 ## Usage (remote execution)
 
-1. Change into the directory containing this file: 
-    ```bash 
-    $ cd /path/to/step1_introsv 
+1. Change into the directory containing this file:
+    ```bash
+    $ cd /path/to/scatozza-step1
     ```
 2. Invoke the launcher. Examples:
     * **alu**. Customize `N` and `XX` in the following command. After execution, the outputs can be
-      inspected in the `out/alu_top_+n_packets100/` folder.  
-      ```bash 
-      $ ./run.sh -r 2023-socv-N@led-x3850-2.polito.it -p 100XX -c -m setmentor -- alu_top +n_packets100 
+      inspected in the `out/alu_top_+n_packets100/` folder.
+      ```bash
+      $ ./run.sh -r 2023-socv-N@led-x3850-2.polito.it -p 100XX -c -m setmentor -- alu_top +n_packets100
       ```
     * **accumulator**. Customize `N` and `XX` in the following command. After execution, the outputs can
-      be inspected in the `out/acc_top_+n_packets100/` folder.  
-      ```bash 
-      $ ./run.sh -r 2023-socv-N@led-x3850-2.polito.it -p 100XX -c -m setmentor -- acc_top +n_packets100 
+      be inspected in the `out/acc_top_+n_packets100/` folder.
+      ```bash
+      $ ./run.sh -r 2023-socv-N@led-x3850-2.polito.it -p 100XX -c -m setmentor -- acc_top +n_packets100
       ```
 
 For additional info on the capabilities of the launcher, hit `./run.sh -h`.
