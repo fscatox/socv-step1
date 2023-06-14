@@ -37,13 +37,16 @@ proc log2csv {in_file out_file} {
       if {$print_header} {
         # print the names of variables inside the packet
         set field_names [lmap {i ii} [regexp -all -inline $field_pattern $packet_content] {list $ii}]
+        lappend field_names MISMATCH
+
         puts $out_chan [join $field_names ,]
         set print_header false
       }
 
-      # print the variable values
+      # parse the variables value
       set csv_packet_content [regsub -all $field_pattern $packet_content ,]
-      puts $out_chan [string trimleft $csv_packet_content ,]
+      # parse the comparison result and print 
+      puts $out_chan [string trimleft $csv_packet_content ,],[regexp {ERROR MISMATCH} [gets $in_chan]]
     }
   }
 
