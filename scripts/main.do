@@ -5,7 +5,7 @@
 
 # Author            : Fabio Scatozza <s315216@studenti.polito.it>
 # Date              : 02.06.2023
-# Last Modified Date: 10.06.2023
+# Last Modified Date: 14.06.2023
 
 ###############################
 # QuestaSIM AUTOMATION SCRIPT #
@@ -105,6 +105,10 @@ coverage report -all -cvg -details -directive -output $out_dir/func_cover.rpt $s
 set log_file [transcript path]
 transcript file ""
 file rename -force $log_file $out_dir/vsim.log
+
+# extract the stimulus vectors
+source $script_dir/log2csv.tcl
+log2csv $out_dir/vsim.log $out_dir/stimulus.csv
 
 # quit 
 quit -sim

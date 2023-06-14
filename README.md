@@ -43,9 +43,13 @@ have the opportunity to get familiar with some common principles of more advance
 - [`scripts/`](./scripts) - **Simulation automation scripts**
     - [`scripts/main.do`](.scripts/main.do) - QuestaSIM shell script, launched by
       [`run.sh`](./run.sh). It orchestrates: source files collection, dependency resolution,
-      simulation run and coverage report generation.
+      simulation run, coverage report generation and the post-processing of the applied stimulus.
     - [`scripts/findFiles.tcl`](.scripts/findFiles.tcl) - Recursive `glob` procedure. It's used to
       collect the source files to be compiled.
+    - [`scripts/log2csv.tcl`](.scripts/log2csv.tcl) - Procedure for parsing the simulation log.
+      Expected packets saved into the Scoreboard are saved in comma-separated value format. The
+      header also provides the seed of the simulation and the parameters of the environment
+      configuration.  
 
 - [`src/rtl`](./src/rtl) - **DUTs source files**
     - [`src/rtl/alu`](./src/rtl/alu) - **Combinational circuit**
@@ -174,16 +178,20 @@ have the opportunity to get familiar with some common principles of more advance
     $ cd /path/to/scatozza-step1
     ```
 2. Invoke the launcher. Examples:
-    * **alu**. Customize `N` and `XX` in the following command. After execution, the outputs can be
-      inspected in the `out/alu_top_+n_packets100/` folder.
+    * **alu**. Customize `N` and `XX` in the following command. After execution, the outputs are saved
+      in `out/alu_top_+n_packets100/`.
       ```bash
       $ ./run.sh -r 2023-socv-N@led-x3850-2.polito.it -p 100XX -c -m setmentor -- alu_top +n_packets100
       ```
-    * **accumulator**. Customize `N` and `XX` in the following command. After execution, the outputs can
-      be inspected in the `out/acc_top_+n_packets100/` folder.
+    * **accumulator**. Customize `N` and `XX` in the following command. After execution, the outputs
+      are saved in `out/acc_top_+n_packets100/`.
       ```bash
       $ ./run.sh -r 2023-socv-N@led-x3850-2.polito.it -p 100XX -c -m setmentor -- acc_top +n_packets100
       ```
+3. Examine the outputs:
+    * the simulation log: `vsim.log`
+    * the coverage report: `func_cover.rpt`
+    * the applied stimulus vector: `stimulus.csv`
 
 For additional info on the capabilities of the launcher, hit `./run.sh -h`.
 

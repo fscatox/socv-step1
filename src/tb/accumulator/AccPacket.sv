@@ -82,7 +82,7 @@ class AccPacket extends BaseTransaction;
     if (is_response)
       $display("%sPacket id=%0d: { y=%x }", prefix, id, y);
     else
-      $display("%sPacket id=%0d: { a=%x, b=%x, y=%x, acc=%b, acc_en_n=%b, rst_n=%b}",
+      $display("%sPacket id=%0d: { a=%x, b=%x, y=%x, acc=%b, acc_en_n=%b, rst_n=%b }",
         prefix, id, a, b, y, acc, acc_en_n, rst_n);
   endfunction : display
 

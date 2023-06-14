@@ -70,8 +70,8 @@ virtual class BaseEnvironment #(
     fork : timeout_block
       wait (num_gen_running == 0);
       begin
-        repeat (100 * cfg.n_packets) @(tb.cb);
-        $display("@%0t: %m ERROR: Timeout elapsed while waiting for the generator to finish",
+        repeat (cfg.n_packets+1) @(tb.cb);
+        $display("@%0t: ERROR: Timeout elapsed while waiting for the generator to finish",
                  $time);
         cfg.n_errors++;
       end
