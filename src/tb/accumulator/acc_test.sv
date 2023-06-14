@@ -4,19 +4,19 @@
  * This source code is licensed under the BSD-style license found in the
  * LICENSE file in the root directory of this source tree.
  *
- * File              : alu_test.sv
+ * File              : acc_test.sv
  * Author            : Fabio Scatozza <s315216@studenti.polito.it>
- * Date              : 11.06.2023
- * Last Modified Date: 13.06.2023
+ * Date              : 13.06.2023
+ * Last Modified Date: 14.06.2023
  * ---------------------------------------------------------------------------
  * The program steps through all the phases of the simulation, as defined by
  * the AluEnvironment.
  */
 
-`include "AluEnvironment.sv"
+`include "AccEnvironment.sv"
 
-program automatic alu_test (alu_if ifc);
-  AluEnvironment env;
+program automatic acc_test (acc_if ifci, input event dut_ready);
+  AccEnvironment env;
 
   initial begin
     // instantiate the environment
@@ -26,6 +26,7 @@ program automatic alu_test (alu_if ifc);
     env.build();
 
     // start the transactors
+    @dut_ready;
     env.run();
 
     // terminate
@@ -35,3 +36,4 @@ program automatic alu_test (alu_if ifc);
   end
 
 endprogram
+

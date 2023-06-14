@@ -25,7 +25,7 @@
 `include "AccScoreboardCallbacks.sv"
 `include "acc_if.svh"
 
-class AluEnvironment
+class AccEnvironment
   extends BaseEnvironment #(AccPacket, AccDriver, AccMonitor, v_acctb_if);
 
   AccCoverage cov;

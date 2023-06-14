@@ -7,7 +7,7 @@
  * File              : AluMonitor.sv
  * Author            : Fabio Scatozza <s315216@studenti.polito.it>
  * Date              : 11.06.2023
- * Last Modified Date: 13.06.2023
+ * Last Modified Date: 14.06.2023
  * ---------------------------------------------------------------------------
  * Class in charge of capturing the response of the DUT, packing it in
  * a high-level transaction.
@@ -44,6 +44,9 @@ class AluMonitor;
     AluPacket pk;
 
     forever begin
+      // run pre-callbacks
+      foreach (cbq[i])
+        cbq[i].pre(pk);
 
       capture(pk);
       pk.display($sformatf("@%0t: Monitor: ", $time));

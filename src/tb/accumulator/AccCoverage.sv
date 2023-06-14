@@ -30,16 +30,14 @@ class AccCoverage;
 
     // accumulator inputs,
     // when out of reset and not in memory state
-    a_cp : coverpoint pk.a iff (pk.rst_n && pk.acc_en_n) {
+    a_cp : coverpoint pk.a iff (pk.rst_n && !pk.acc_en_n) {
       bins zero     = {0};
-      bins one      = {1};
       bins max      = {(64'd1<<DATA_WIDTH)-1};
       bins others   = default; // ignored values for coverage
     }
 
-    b_cp : coverpoint pk.b iff (pk.rst_n && pk.acc_en_n) {
+    b_cp : coverpoint pk.b iff (pk.rst_n && !pk.acc_en_n) {
       bins zero     = {0};
-      bins one      = {1};
       bins max      = {(64'd1<<DATA_WIDTH)-1};
       bins others   = default; // ignored values for coverage
     }
@@ -60,10 +58,10 @@ class AccCoverage;
       bins memory_state     = binsof(acc_en_n_cp) intersect {1};
 
       bins sum_state        = binsof(acc_cp) intersect {0} &&
-                              binsof(acc_en_n_cp) intersect {1};
+                              binsof(acc_en_n_cp) intersect {0};
 
       bins accumulate_state = binsof(acc_cp) intersect {1} &&
-                              binsof(acc_en_n_cp) intersect {1};
+                              binsof(acc_en_n_cp) intersect {0};
     }
 
   endgroup

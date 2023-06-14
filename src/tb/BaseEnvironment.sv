@@ -89,8 +89,7 @@ virtual class BaseEnvironment #(
 
     $display({prefix, "END OF SIMULATION"});
     $display({{prefix.len{" "}}, $sformatf("  * %0d error(s)", cfg.n_errors)});
-    $display({{prefix.len{" "}}, $sformatf("  * total functional coverage: %.2f%%", $get_coverage)
-               });
+    $display({{prefix.len{" "}}, $sformatf("  * total functional coverage: %.2f%%", $get_coverage)});
     $display;
 
   endfunction : wrap_up

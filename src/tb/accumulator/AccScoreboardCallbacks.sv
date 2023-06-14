@@ -29,6 +29,7 @@ class AccScbDriverCb
 
   function new (Scoreboard#(AccPacket) scb);
     this.scb = scb;
+    mem_y = 0;
   endfunction
 
   // Generate the result, fill the packet and save it in the scoreboard

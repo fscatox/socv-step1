@@ -44,12 +44,16 @@ class AccMonitor;
 
     forever begin
 
+      // run pre-callbacks
+      foreach (cbq[i])
+        cbq[i].pre(pk);
+
       capture(pk);
       pk.display($sformatf("@%0t: Monitor: ", $time));
 
       // run post-callbacks
       foreach (cbq[i])
-        cbq[i].post(this, pk);
+        cbq[i].post(pk);
 
     end
   endtask : run

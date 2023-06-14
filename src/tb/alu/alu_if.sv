@@ -7,7 +7,7 @@
 * File              : alu_if.sv
 * Author            : Fabio Scatozza <s315216@studenti.polito.it>
 * Date              : 10.06.2023
-* Last Modified Date: 13.06.2023
+* Last Modified Date: 14.06.2023
 * ---------------------------------------------------------------------------
 * The interface encapsulates connectivity and synchronization between the
 * DUT and the testbench environment.
@@ -17,7 +17,7 @@
 `define ALU_IF_SV
 
 import walu_pkg::*;
-import type_alu::*;
+import type_alu::*; // VHDL package
 
 interface alu_if
   (input bit clk);

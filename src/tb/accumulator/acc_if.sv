@@ -7,7 +7,7 @@
 * File              : acc_if.sv
 * Author            : Fabio Scatozza <s315216@studenti.polito.it>
 * Date              : 13.06.2023
-* Last Modified Date: 13.06.2023
+* Last Modified Date: 14.06.2023
 * ---------------------------------------------------------------------------
 * The interface encapsulates connectivity and synchronization between the
 * DUT and the testbench environment.
@@ -34,11 +34,6 @@ interface acc_if
   endclocking
 
   modport tb (clocking cb, input y);
-
-  modport acc_p (
-    input a, b, acc, acc_en_n, rst_n, clk,
-    output y
-  );
 
 endinterface
 
