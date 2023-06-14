@@ -47,9 +47,10 @@ have the opportunity to get familiar with some common principles of more advance
     - [`scripts/findFiles.tcl`](.scripts/findFiles.tcl) - Recursive `glob` procedure. It's used to
       collect the source files to be compiled.
     - [`scripts/log2csv.tcl`](.scripts/log2csv.tcl) - Procedure for parsing the simulation log.
-      Expected packets saved into the Scoreboard are saved in comma-separated value format. The
-      header also provides the seed of the simulation and the parameters of the environment
-      configuration.  
+      Expected packets saved into the scoreboard are exported in comma-separated value format,
+      together with the outcome of the comparison. To ensure repeatability, the seed of the
+      simulation and the configuration parameters of the environment are listed at the top of
+      the file.
 
 - [`src/rtl`](./src/rtl) - **DUTs source files**
     - [`src/rtl/alu`](./src/rtl/alu) - **Combinational circuit**
