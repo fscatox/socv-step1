@@ -19,12 +19,12 @@
 `include "BaseTransaction.sv"
 
 class Callback
-  #(type TRANSACTION = BaseTransaction);
+  #(type T = BaseTransaction);
 
-  virtual task pre(input TRANSACTION tr);
+  virtual task pre(input T tr);
   endtask : pre
 
-  virtual task post(input TRANSACTION tr);
+  virtual task post(input T tr);
   endtask : post
 
 endclass
