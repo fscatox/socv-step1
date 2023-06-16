@@ -9,7 +9,7 @@
 ## Introduction
 Verification engineers want to find bugs and simulation is still the workhorse of it all.
 
-When it comes to developing testbenches, the typical straightforward approach is direct testing.
+When it comes to developing testbenches, the typical straightforward approach is directed testing.
 The hardware specifications are translated into a verification plan consisting in a list of tests,
 each targeting a certain subset of the DUT's functionality. The testbench is then constructed to
 generate enough stimulus vectors to exercise those features. Results are manually examined and, when
@@ -77,22 +77,21 @@ have the opportunity to get familiar with some common principles of more advance
       the driver and the monitor. It collects the expected and actual DUT's reponses, then it
       performs a comparison check.
     - [`src/tb/BaseEnvironment.sv`](./src/tb/BaseEnvironment.sv) - The environment encapsulates all
-      the blocks of the layered testbench. It simulates evrything that is not inside the DUT, making
+      the blocks of the layered testbench. It simulates everything that is not inside the DUT, making
       it possible to run a certain testbench program via:
-          - `build()`. This method is left to be implemented by child classes. It shall build the
-            environment, which encompasses the allocation of the transactors, the instantiation of
-            the callbacks and their registration with both the scoreboard and the coverage class.
-          - `run()`. Generator, Driver and Monitor classes are run in their own threads. A timeout
-            block prevents the simulation to hang in case of errors.
-          - `wrap_up()`. Prints statistic of the current run: number of errors and the total
-            functional coverage.
+      - `build()`. This method is left to be implemented by child classes. It shall build the
+        environment, which encompasses the allocation of the transactors, the instantiation of
+        the callbacks and their registration with both the scoreboard and the coverage class.
+      - `run()`. Generator, Driver and Monitor classes are run in their own threads. A timeout
+        block prevents the simulation to hang in case of errors.
+      - `wrap_up()`. Prints statistic of the current run: number of errors and the total
+        functional coverage.
  
     - [`src/tb/alu`](./src/tb/alu) - **Additional testbench sources for the alu**
         - [`src/tb/alu/walu_pkg.sv`](./src/tb/alu/walu_pkg.sv) - Data types and configuration
           parameters for the SystemVerilog wrapper of the VHDL alu under test.
         - [`src/tb/alu/alu_if.sv`](./src/tb/alu/alu_if.sv) - The interface encapsulates
-          connectivity and synchronization between the DUT and the testbench environment. Race
-          conditions are prevented by means of clocking blocks.
+          connectivity and synchronization between the DUT and the testbench environment.
         - [`src/tb/alu/alu_if.svh`](./src/tb/alu/alu_if.svh) - `alu_if`-related type declarations.
         - [`src/tb/alu/walu.sv`](./src/tb/alu/walu.sv) - Wrapper for the ALU described in the VHDL
           entity `alu`.
@@ -131,13 +130,13 @@ have the opportunity to get familiar with some common principles of more advance
           HDL testbenches.
         - [`src/tb/alu/alu_top.sv`](./src/tb/alu/alu_top.sv) - Highest testbench layer,
           containing:
-            - The clock generator, because the clock is in general more closely tied to the
-              design rather than to the testbench. In addition, this provides further separation
-              between design and testbench events.
-            - The interface object, which acts as a clever bundle of wires by embedding the timing
-              details of DUT-testbench interaction.
-            - The DUT instance.
-            - The testbench program block.
+          - The clock generator, because the clock is in general more closely tied to the
+            design rather than to the testbench. In addition, this provides further separation
+            between design and testbench events.
+          - The interface object, which acts as a clever bundle of wires by embedding the timing
+            details of DUT-testbench interaction.
+          - The DUT instance.
+          - The testbench program block.
  
     - [`src/tb/accumulator`](./src/tb/accumulator) - **Additional testbench sources for the
       accumulator**. As anticipated when introducing the advantages of having a higher-level testbench
@@ -171,6 +170,8 @@ have the opportunity to get familiar with some common principles of more advance
           care of enforcing the conditions required by the transactors to work properly. At first,
           while the transactors have not been started yet, the dut is reset. Then, the `dut_ready`
           event is triggered, which wakes up the `acc_test` program.
+
+- [`doc/`](./doc) - **technical report and latex sources**
 
 ## Usage (remote execution)
 

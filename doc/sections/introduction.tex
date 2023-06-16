@@ -1,0 +1,58 @@
+\section{Introduction}\label{sec:introduction}
+Verification engineers strive to find bugs as early as possible in the design cycle because the cost of fixing them increases when getting closer to tape-out.
+The verification process goes in parallel to design creation and the starting point is in both cases the design specifications. Taking for granted that there is always ambiguity in this kind of natural language description, having both the verification engineers and the hardware designers perform the same interpretation adds redundancy in the process, each of them making an independent assessment of what those specifications mean. 
+
+At this crossroad, goals diverge; the verification team has to make sure that, whatever the design team comes up with, is indeed compliant with the specifications and simulation is still the workhorse to achieve that.
+
+\subsection{The Verification Plan}\label{subsec:verification-plan}
+Although testbenches share a common structure of stimulus generation and response checking, planning early on how to verify the design is crucial, as it affects their structure. The verification plan is directly derived from the specifications; it encompasses the description of what features shall be exercised and the techniques to do so.
+
+Starting from it, tests are developed targeting those features, with the hope of uncovering discrepancies that designers may not have thought about. The typical steps are:
+\begin{enumerate}
+    \item generate the stimulus
+    \item drive the \dut
+    \item capture the \dut's response
+    \item check the correctness of the response
+    \item track the progress in the overall verification plan
+\end{enumerate}
+Depending on the chosen verification methodology, the way these steps are carried out changes.
+
+\subsection{Directed Testing}\label{subsec:direct-testing}
+A typical straightforward approach is directed testing. Once having picked a certain feature to be verified from the plan, the testbench is constructed to generate enough stimulus vectors to exercise it satisfactorily. The \dut's response is collected in the form of a textual dump or as graphical waveforms and manually examined. If there are no violations the process advances and this is repeated until the verification plan is completed. 
+
+Although this approach starts yielding results quickly, each test must be written almost from scratch and the effort depends both on the complexity of the design and on its location in the system hierarchy. Furthermore, the stimulus vectors only exercise the \dut in expected areas, limiting the ability to uncover bugs elsewhere.
+
+\subsection{Find Bugs Faster}\label{subsec:find-bugs-faster}
+Considering the limited verification features available in \vhdl and the simplicity of the designs tackled in introductory digital electronics courses, directed tests were sufficient. 
+
+In this first step of the \emph{SoC Verification Strategies} workshop, I
+had the opportunity to start getting familiar with some common principles of more advanced methodologies and their elected language, \sv.
+\begin{description}
+    \item[constrained-random stimuli] Contrary to directed tests, which find bugs where they are expected to be, randomness allows to find bugs that were never anticipated; at the same time, constraints are essential to ensure that the stimulus is valid and relevant to the \dut.
+    \item[functional coverage] Once having switched to random tests, functional coverage becomes the metric for tracking progress in the verification plan, ensuring that all the intended features of the \dut were exercised.
+    \item[layered structure] Random stimuli imply the need for an environment capable of predicting the expected response; building this infrastructure requires additional work, thus the importance of effectively managing complexity:
+    \begin{itemize}
+        \item the abstraction level is raised up to the transaction level. The environment is structured in a layered manner, composing simpler modules. 
+        \item Language expressiveness limits analyzability, synthesizability and optimizability. Nonetheless, being verification the primary goal, \ac{hdl}s make way for \sv and its convenient set of features, including:
+        \begin{itemize}
+            \item constrained-random stimuli generation
+            \item functional coverage
+            \item high-level constructs borrowed from \ac{oop} and system programming
+            \item inter-thread communication and synchronization mechanisms
+            \item seamless integration with \ac{hdl}s, especially with the event-based simulation kernel
+        \end{itemize}
+    \end{itemize}
+\end{description}
+
+Verification methodology libraries such as the \ac{uvm} are devised for use by experienced users and excel on difficult problems. This first step of the workshop is dedicated to learning the background knowledge required to become proficient users of those more advanced libraries. 
+
+\subsection{The Hands-On Experience}
+What follows is the analysis of the verification of two simple \ac{dut}s designed in the Microelectronic Systems course:
+\begin{itemize}
+    \item as an example of a combinational circuit, the behavioral \ac{alu} presented in~\cref{subsec:dut_alu};
+    \item as a sequential circuit, the behavioral accumulator presented in~\cref{subsec:dut_acc}.
+\end{itemize}
+
+Both designs had been described in \vhdl, which gave me the opportunity to experiment with mixed-language support of the commercial simulator~\cite{questa}.
+
+\clearpage
