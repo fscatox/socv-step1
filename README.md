@@ -177,7 +177,7 @@ have the opportunity to get familiar with some common principles of more advance
 
 1. Change into the directory containing this file:
     ```bash
-    $ cd /path/to/scatozza-step1
+    $ cd /path/to/socv-step1
     ```
 2. Invoke the launcher. Examples:
     * **alu**. Customize `N` and `XX` in the following command. After execution, the outputs are saved
